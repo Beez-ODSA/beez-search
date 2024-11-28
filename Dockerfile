@@ -2,9 +2,14 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
+# Copy project files
 COPY . /app
-RUN pip install -r requirements.txt
 
-EXPOSE 8000
+# Set PYTHONPATH environment variable
+ENV PYTHONPATH=/app
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Install dependencies
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+
+# Default command to run pytest
+CMD ["pytest"]
